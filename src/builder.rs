@@ -742,6 +742,10 @@ pub fn bundle<SP: SpendProver, OP: OutputProver, R: Rng, V: TryFrom<i64>>(
         spends,
         outputs,
         |spend_infos, output_infos, value_balance, tx_metadata, mut rng| {
+            // Empty bundles have no binding signature or keys to derive.
+            if spend_infos.is_empty() && output_infos.is_empty() {
+                return Ok(None);
+            }
             let value_balance_i64 =
                 i64::try_from(value_balance).map_err(|_| Error::InvalidAmount)?;
 
@@ -1287,6 +1291,9 @@ impl<V> Bundle<InProgress<Proven, PartiallyAuthorized>, V> {
         )
     }
 }
+
+#[cfg(all(test, feature = "circuit"))]
+mod tests;
 
 #[cfg(all(feature = "circuit", any(test, feature = "test-dependencies")))]
 pub(crate) mod testing {
