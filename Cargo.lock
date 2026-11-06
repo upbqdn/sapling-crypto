@@ -134,7 +134,7 @@ checksum = "32637268377fc7b10a8c6d51de3e7fba1ce5dd371a96e342b34e6078db558e7f"
 [[package]]
 name = "bellman"
 version = "0.15.0"
-source = "git+https://github.com/upbqdn/bellman?rev=5460bfad25c0f2738e1f65b32683efa9979fa82a#5460bfad25c0f2738e1f65b32683efa9979fa82a"
+source = "git+https://github.com/upbqdn/bellman?rev=703423ff97b086546939c879a8651c9462e47f71#703423ff97b086546939c879a8651c9462e47f71"
 dependencies = [
  "bitvec",
  "blake2s_simd",
@@ -222,7 +222,7 @@ dependencies = [
 [[package]]
 name = "bls12_381"
 version = "0.9.0"
-source = "git+https://github.com/upbqdn/bls12_381?rev=ab49fee594b985bee45f31fb667babbd1f8d8e62#ab49fee594b985bee45f31fb667babbd1f8d8e62"
+source = "git+https://github.com/upbqdn/bls12_381?rev=110a35f65d09e6953d1fe9b11c5a0f613779b7f8#110a35f65d09e6953d1fe9b11c5a0f613779b7f8"
 dependencies = [
  "ff",
  "group",
@@ -702,7 +702,7 @@ checksum = "4271d37baee1b8c7e4b708028c57d816cf9d2434acb33a549475f78c181f6253"
 [[package]]
 name = "groth16"
 version = "0.2.0"
-source = "git+https://github.com/upbqdn/bellman?rev=5460bfad25c0f2738e1f65b32683efa9979fa82a#5460bfad25c0f2738e1f65b32683efa9979fa82a"
+source = "git+https://github.com/upbqdn/bellman?rev=703423ff97b086546939c879a8651c9462e47f71#703423ff97b086546939c879a8651c9462e47f71"
 dependencies = [
  "bellman",
  "byteorder",
