@@ -193,23 +193,42 @@ impl BatchValidator {
             return false;
         }
 
+        let spend_key = spend_vk.prepare_batch();
+        let output_key = output_vk.prepare_batch();
+
         #[cfg(feature = "multicore")]
-        let verify_proofs = |batch: groth16::batch::Verifier<Bls12>, vk| batch.verify_multicore(vk);
+        let use_joint = self.spend_proofs.len() == 1 && self.output_proofs.len() == 1;
+        #[cfg(not(feature = "multicore"))]
+        let use_joint = !self.spend_proofs.is_empty() && !self.output_proofs.is_empty();
+        if use_joint {
+            return self
+                .spend_proofs
+                .verify_joint_prepared(self.output_proofs, &mut rng, &spend_key, &output_key)
+                .is_ok();
+        }
+
+        #[cfg(feature = "multicore")]
+        let verify_proofs =
+            |batch: groth16::batch::Verifier<Bls12>,
+             key: &groth16::batch::PreparedBatchVerifyingKey<'_, Bls12>| {
+                batch.verify_multicore_prepared(key)
+            };
 
         #[cfg(not(feature = "multicore"))]
         let mut verify_proofs =
-            |batch: groth16::batch::Verifier<Bls12>, vk| batch.verify(&mut rng, vk);
+            |batch: groth16::batch::Verifier<Bls12>,
+             key: &groth16::batch::PreparedBatchVerifyingKey<'_, Bls12>| {
+                batch.verify_prepared(&mut rng, key)
+            };
 
-        if verify_proofs(self.spend_proofs, &spend_vk.0).is_err() {
+        if verify_proofs(self.spend_proofs, &spend_key).is_err() {
             tracing::debug!("Spend proof batch validation failed");
             return false;
         }
-
-        if verify_proofs(self.output_proofs, &output_vk.0).is_err() {
+        if verify_proofs(self.output_proofs, &output_key).is_err() {
             tracing::debug!("Output proof batch validation failed");
             return false;
         }
-
         true
     }
 }

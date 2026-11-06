@@ -570,7 +570,7 @@ impl SpendParameters {
 
     /// Returns the verifying key for the Sapling Spend circuit.
     pub fn verifying_key(&self) -> SpendVerifyingKey {
-        SpendVerifyingKey(self.0.vk.clone())
+        SpendVerifyingKey(self.0.vk.clone(), std::sync::OnceLock::new())
     }
 
     /// Returns the verifying key for the Sapling Spend circuit, with precomputations
@@ -581,12 +581,23 @@ impl SpendParameters {
 }
 
 /// The verifying key for the Sapling Spend circuit.
-pub struct SpendVerifyingKey(pub(crate) groth16::VerifyingKey<Bls12>);
+pub struct SpendVerifyingKey(
+    pub(crate) groth16::VerifyingKey<Bls12>,
+    std::sync::OnceLock<groth16::batch::PreparedBatchG2<Bls12>>,
+);
 
 impl SpendVerifyingKey {
     /// Performs precomputations optimized for verifying individual proofs.
     pub fn prepare(&self) -> PreparedSpendVerifyingKey {
         PreparedSpendVerifyingKey(groth16::prepare_verifying_key(&self.0))
+    }
+
+    pub(crate) fn prepare_batch(&self) -> groth16::batch::PreparedBatchVerifyingKey<'_, Bls12> {
+        let g2 = self
+            .1
+            .get_or_init(|| groth16::batch::PreparedBatchG2::from(&self.0));
+        groth16::batch::PreparedBatchVerifyingKey::from_cached(&self.0, g2)
+            .expect("cached G2 terms were prepared from this immutable verifying key")
     }
 }
 
@@ -608,7 +619,7 @@ impl OutputParameters {
 
     /// Returns the verifying key for the Sapling Output circuit.
     pub fn verifying_key(&self) -> OutputVerifyingKey {
-        OutputVerifyingKey(self.0.vk.clone())
+        OutputVerifyingKey(self.0.vk.clone(), std::sync::OnceLock::new())
     }
 
     /// Returns the verifying key for the Sapling Output circuit, with precomputations
@@ -619,12 +630,23 @@ impl OutputParameters {
 }
 
 /// The verifying key for the Sapling Output circuit.
-pub struct OutputVerifyingKey(pub(crate) groth16::VerifyingKey<Bls12>);
+pub struct OutputVerifyingKey(
+    pub(crate) groth16::VerifyingKey<Bls12>,
+    std::sync::OnceLock<groth16::batch::PreparedBatchG2<Bls12>>,
+);
 
 impl OutputVerifyingKey {
     /// Performs precomputations optimized for verifying individual proofs.
     pub fn prepare(&self) -> PreparedOutputVerifyingKey {
         PreparedOutputVerifyingKey(groth16::prepare_verifying_key(&self.0))
+    }
+
+    pub(crate) fn prepare_batch(&self) -> groth16::batch::PreparedBatchVerifyingKey<'_, Bls12> {
+        let g2 = self
+            .1
+            .get_or_init(|| groth16::batch::PreparedBatchG2::from(&self.0));
+        groth16::batch::PreparedBatchVerifyingKey::from_cached(&self.0, g2)
+            .expect("cached G2 terms were prepared from this immutable verifying key")
     }
 }
 
