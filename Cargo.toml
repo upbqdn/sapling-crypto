@@ -135,3 +135,12 @@ harness = false
 [[bench]]
 name = "pedersen_hash"
 harness = false
+
+[patch.crates-io]
+bellman = { git = "https://github.com/upbqdn/bellman", rev = "c2a67071e77e290a8deba50c9ba8777705d40030" }
+groth16 = { git = "https://github.com/upbqdn/bellman", rev = "c2a67071e77e290a8deba50c9ba8777705d40030" }
+bls12_381 = { git = "https://github.com/upbqdn/bls12_381", rev = "625ef5e3d14a3fcf83932ac979df22d4a4bbc34d" }
+pairing = { git = "https://github.com/upbqdn/pairing", rev = "cb99cc74b1f5b4e6ecfb7d83db8e4261439e4a13" }
+redjubjub = { git = "https://github.com/upbqdn/redjubjub", rev = "87ef6241f46c922b68119597534f0060f7f4280d" }
+reddsa = { git = "https://github.com/ZcashFoundation/reddsa", rev = "6cc0415f322c199442e767b6bbb30b42469d927c" }
+pasta_curves = { git = "https://github.com/upbqdn/pasta_curves", rev = "b80bd85008f73f971dc689b1a30e5551e1e957d1" }

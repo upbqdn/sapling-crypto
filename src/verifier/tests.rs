@@ -67,3 +67,28 @@ fn retained_binding_keys_match_encoding_roundtrip() {
         assert_eq!(key, decoded);
     }
 }
+
+#[test]
+fn direct_nullifier_packing_matches_circuit_multipacking() {
+    use bellman::gadgets::multipack;
+    use rand::{rngs::StdRng, Rng, SeedableRng};
+    let check = |nullifier: [u8; 32]| {
+        let expected = multipack::compute_multipacking::<bls12_381::Scalar>(
+            &multipack::bytes_to_bits_le(&nullifier),
+        );
+        assert_eq!(super::pack_nullifier(&nullifier).as_slice(), expected);
+    };
+    check([0; 32]);
+    check([0xff; 32]);
+    for bit in 0..256 {
+        let mut nullifier = [0; 32];
+        nullifier[bit / 8] = 1 << (bit % 8);
+        check(nullifier);
+    }
+    let mut rng = StdRng::seed_from_u64(7);
+    for _ in 0..1024 {
+        let mut nullifier = [0; 32];
+        rng.fill_bytes(&mut nullifier);
+        check(nullifier);
+    }
+}

@@ -1,4 +1,3 @@
-use bellman::gadgets::multipack;
 use bls12_381::Bls12;
 use groth16::Proof;
 use group::{ff::PrimeField, Curve};
@@ -17,6 +16,20 @@ pub use batch::BatchValidator;
 
 #[cfg(test)]
 mod tests;
+
+// Sapling packs 256 nullifier bits into one capacity-sized scalar and two remaining bits.
+const _: () = assert!(bls12_381::Scalar::CAPACITY == 254);
+
+fn pack_nullifier(nullifier: &[u8; 32]) -> [bls12_381::Scalar; 2] {
+    let mut low = *nullifier;
+    let high = low[31] >> 6;
+    low[31] &= 0x3f;
+    [
+        bls12_381::Scalar::from_repr(low)
+            .expect("254-bit integers are canonical BLS12-381 scalars"),
+        bls12_381::Scalar::from(u64::from(high)),
+    ]
+}
 
 /// A context object for verifying the Sapling components of a Zcash transaction.
 struct SaplingVerificationContextInner {
@@ -57,9 +70,6 @@ impl SaplingVerificationContextInner {
         // Accumulate the value commitment in the context
         self.cv_sum += cv;
 
-        // Grab the nullifier as a sequence of bytes
-        let nullifier = &nullifier[..];
-
         // Verify the spend_auth_sig
         if !spend_auth_sig_verifier(verifier_ctx, rk) {
             return false;
@@ -81,16 +91,10 @@ impl SaplingVerificationContextInner {
         }
         public_input[4] = anchor;
 
-        // Add the nullifier through multiscalar packing
-        {
-            let nullifier = multipack::bytes_to_bits_le(nullifier);
-            let nullifier = multipack::compute_multipacking(&nullifier);
-
-            assert_eq!(nullifier.len(), 2);
-
-            public_input[5] = nullifier[0];
-            public_input[6] = nullifier[1];
-        }
+        // Pack the nullifier directly into the circuit's two public inputs.
+        let packed_nullifier = pack_nullifier(nullifier);
+        public_input[5] = packed_nullifier[0];
+        public_input[6] = packed_nullifier[1];
 
         // Verify the proof
         proof_verifier(verifier_ctx, zkproof, public_input)
