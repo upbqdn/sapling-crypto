@@ -134,8 +134,7 @@ checksum = "32637268377fc7b10a8c6d51de3e7fba1ce5dd371a96e342b34e6078db558e7f"
 [[package]]
 name = "bellman"
 version = "0.15.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "973b16549796a1274a63e00159a03250e66e8263e2ac6344b1c9fdfe9b7a8325"
+source = "git+https://github.com/upbqdn/bellman?rev=e192cef16516fc05a378f7f3e2016c08e56ec85c#e192cef16516fc05a378f7f3e2016c08e56ec85c"
 dependencies = [
  "bitvec",
  "blake2s_simd",
@@ -223,8 +222,7 @@ dependencies = [
 [[package]]
 name = "bls12_381"
 version = "0.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18f887f26229478dcd0e0d063566b51c68fb55a38fba21799c5f3371a74ec61f"
+source = "git+https://github.com/upbqdn/bls12_381?rev=8aab794d8c493762bd53c4ecd20e2d3b7a7898cf#8aab794d8c493762bd53c4ecd20e2d3b7a7898cf"
 dependencies = [
  "ff",
  "group",
@@ -704,8 +702,7 @@ checksum = "4271d37baee1b8c7e4b708028c57d816cf9d2434acb33a549475f78c181f6253"
 [[package]]
 name = "groth16"
 version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8bb1e0bde2dbacd81474ae216c5dd4901307bd1c75fd26ed49590e88048c8442"
+source = "git+https://github.com/upbqdn/bellman?rev=e192cef16516fc05a378f7f3e2016c08e56ec85c#e192cef16516fc05a378f7f3e2016c08e56ec85c"
 dependencies = [
  "bellman",
  "byteorder",
@@ -1046,18 +1043,17 @@ checksum = "0ab1bc2a289d34bd04a330323ac98a1b4bc82c9d9fcb1e66b63caa84da26b575"
 [[package]]
 name = "pairing"
 version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "33f6413397336802d16a342e69a5bd9c8b8cc2fa9fc9298044cd3443f77f1010"
+source = "git+https://github.com/upbqdn/pairing?rev=6cff6942e187ef62b21eac27a3bb545d041c5748#6cff6942e187ef62b21eac27a3bb545d041c5748"
 dependencies = [
  "group",
 ]
 
 [[package]]
 name = "pasta_curves"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ec2f82051d06ea52d7ec6a47546c592fc52392b6040e503e05a764dd10dd1de"
+version = "0.6.1"
+source = "git+https://github.com/upbqdn/pasta_curves?rev=4b20f4643237207efccf300f1288d7007947e17e#4b20f4643237207efccf300f1288d7007947e17e"
 dependencies = [
+ "blake2b_simd",
  "ff",
  "group",
  "rand 0.10.2",
@@ -1318,8 +1314,7 @@ dependencies = [
 [[package]]
 name = "reddsa"
 version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a70b6dbd7b3277cbd4d89ee750a30bebab3b9951ee4e166ce15c00975fe410f"
+source = "git+https://github.com/ZcashFoundation/reddsa?rev=28c2bfeae5d3bb5d686175c5f261a7c62296f6c9#28c2bfeae5d3bb5d686175c5f261a7c62296f6c9"
 dependencies = [
  "blake2b_simd",
  "byteorder",
@@ -1336,9 +1331,9 @@ dependencies = [
 [[package]]
 name = "redjubjub"
 version = "0.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "19ff57b3369b472353110bea305ced2612a1380e2d2079dd26c200ed42064421"
+source = "git+https://github.com/upbqdn/redjubjub?rev=f96d6beabfefe77929db14fa9136146dfc975a8e#f96d6beabfefe77929db14fa9136146dfc975a8e"
 dependencies = [
+ "jubjub",
  "rand_core 0.10.1",
  "reddsa",
  "thiserror",

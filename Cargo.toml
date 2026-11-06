@@ -137,10 +137,10 @@ name = "pedersen_hash"
 harness = false
 
 [patch.crates-io]
-bellman = { git = "https://github.com/upbqdn/bellman", rev = "ed363f2c0472a41873104a238366754850962132" }
-groth16 = { git = "https://github.com/upbqdn/bellman", rev = "ed363f2c0472a41873104a238366754850962132" }
-bls12_381 = { git = "https://github.com/upbqdn/bls12_381", rev = "6e821c63247f13f29ab96562eea00ac6b37aa91f" }
+bellman = { git = "https://github.com/upbqdn/bellman", rev = "e192cef16516fc05a378f7f3e2016c08e56ec85c" }
+groth16 = { git = "https://github.com/upbqdn/bellman", rev = "e192cef16516fc05a378f7f3e2016c08e56ec85c" }
+bls12_381 = { git = "https://github.com/upbqdn/bls12_381", rev = "8aab794d8c493762bd53c4ecd20e2d3b7a7898cf" }
 pairing = { git = "https://github.com/upbqdn/pairing", rev = "6cff6942e187ef62b21eac27a3bb545d041c5748" }
-redjubjub = { git = "https://github.com/upbqdn/redjubjub", rev = "ad2afbc6795d3166824656e1d2d078d13e00533f" }
-reddsa = { git = "https://github.com/ZcashFoundation/reddsa", rev = "a164ca491060087e79feedc735b23cdc6f2845aa" }
+redjubjub = { git = "https://github.com/upbqdn/redjubjub", rev = "f96d6beabfefe77929db14fa9136146dfc975a8e" }
+reddsa = { git = "https://github.com/ZcashFoundation/reddsa", rev = "28c2bfeae5d3bb5d686175c5f261a7c62296f6c9" }
 pasta_curves = { git = "https://github.com/upbqdn/pasta_curves", rev = "4b20f4643237207efccf300f1288d7007947e17e" }
