@@ -137,9 +137,9 @@ name = "pedersen_hash"
 harness = false
 
 [patch.crates-io]
-bellman = { git = "https://github.com/upbqdn/bellman", rev = "e192cef16516fc05a378f7f3e2016c08e56ec85c" }
-groth16 = { git = "https://github.com/upbqdn/bellman", rev = "e192cef16516fc05a378f7f3e2016c08e56ec85c" }
-bls12_381 = { git = "https://github.com/upbqdn/bls12_381", rev = "8aab794d8c493762bd53c4ecd20e2d3b7a7898cf" }
+bellman = { git = "https://github.com/upbqdn/bellman", rev = "a484cfda59c9bb39511fde27185c3a90200a1f1c" }
+groth16 = { git = "https://github.com/upbqdn/bellman", rev = "a484cfda59c9bb39511fde27185c3a90200a1f1c" }
+bls12_381 = { git = "https://github.com/upbqdn/bls12_381", rev = "ca6d7becac33e0d9b8abc55192fd9202f47a1153" }
 pairing = { git = "https://github.com/upbqdn/pairing", rev = "6cff6942e187ef62b21eac27a3bb545d041c5748" }
 redjubjub = { git = "https://github.com/upbqdn/redjubjub", rev = "f96d6beabfefe77929db14fa9136146dfc975a8e" }
 reddsa = { git = "https://github.com/ZcashFoundation/reddsa", rev = "28c2bfeae5d3bb5d686175c5f261a7c62296f6c9" }
