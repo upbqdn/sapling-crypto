@@ -96,7 +96,7 @@ fn serial_check(validator: &mut BatchValidator, bundle: &Bundle<Authorized, i64>
             |validator, rk| {
                 validator
                     .signatures
-                    .queue(((*rk).into(), *spend.spend_auth_sig(), &SIGHASH));
+                    .queue((*rk, *spend.spend_auth_sig(), &SIGHASH));
                 true
             },
             |validator, proof, inputs| {
@@ -122,7 +122,7 @@ fn serial_check(validator: &mut BatchValidator, bundle: &Bundle<Authorized, i64>
     ctx.final_check(*bundle.value_balance(), |bvk| {
         validator
             .signatures
-            .queue((bvk.into(), bundle.authorization().binding_sig, &SIGHASH));
+            .queue((bvk, bundle.authorization().binding_sig, &SIGHASH));
         true
     })
     .then_some(())
@@ -302,7 +302,10 @@ fn semantic_failures_preserve_partial_queues() {
                 spend.cv().clone(),
                 *spend.anchor(),
                 spend.nullifier().clone(),
-                jubjub::ExtendedPoint::identity().to_bytes().try_into().unwrap(),
+                jubjub::ExtendedPoint::identity()
+                    .to_bytes()
+                    .try_into()
+                    .unwrap(),
                 *spend.zkproof(),
                 *spend.spend_auth_sig(),
             );
@@ -318,10 +321,8 @@ fn semantic_failures_preserve_partial_queues() {
     }
     // Invalid commitments cannot enter a decoded bundle through the network constructors.
     assert!(bool::from(
-        ValueCommitment::from_bytes_not_small_order(
-            &jubjub::ExtendedPoint::identity().to_bytes(),
-        )
-        .is_none()
+        ValueCommitment::from_bytes_not_small_order(&jubjub::ExtendedPoint::identity().to_bytes(),)
+            .is_none()
     ));
     assert!(bool::from(
         ValueCommitment::from_bytes_not_small_order(&[0xff; 32]).is_none()

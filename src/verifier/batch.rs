@@ -106,7 +106,7 @@ impl BatchValidator {
                 self,
                 |this, rk| {
                     this.signatures
-                        .queue(((*rk).into(), *spend.spend_auth_sig(), &sighash));
+                        .queue((*rk, *spend.spend_auth_sig(), &sighash));
                     true
                 },
                 |this, proof, public_inputs| {
@@ -163,7 +163,7 @@ impl BatchValidator {
         // Check the whole-bundle consensus rules, and batch the binding signature.
         ctx.final_check(*bundle.value_balance(), |bvk| {
             self.signatures
-                .queue((bvk.into(), bundle.authorization().binding_sig, &sighash));
+                .queue((bvk, bundle.authorization().binding_sig, &sighash));
             true
         })
     }

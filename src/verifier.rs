@@ -15,6 +15,9 @@ pub use single::SaplingVerificationContext;
 mod batch;
 pub use batch::BatchValidator;
 
+#[cfg(test)]
+mod tests;
+
 /// A context object for verifying the Sapling components of a Zcash transaction.
 struct SaplingVerificationContextInner {
     // (sum of the Spend value commitments) - (sum of the Output value commitments)
@@ -46,7 +49,7 @@ impl SaplingVerificationContextInner {
         // The "cv is not small order" happens when a SpendDescription is deserialized.
         // This happens when transactions or blocks are received over the network, or when
         // mined blocks are introduced via the `submitblock` RPC method on full nodes.
-        let rk_affine = jubjub::AffinePoint::from_bytes((*rk).into()).unwrap();
+        let rk_affine = jubjub::AffinePoint::from(*rk);
         if rk_affine.is_small_order().into() {
             return false;
         }
